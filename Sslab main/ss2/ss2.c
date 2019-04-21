@@ -1,14 +1,14 @@
-//PASS 2:
+//Pass-2 of two-pass assembler
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h>
+
 void main()
 {
-    FILE *f1,*f2,*f3,*f4,*f5;
+	FILE *f1,*f2,*f3,*f4,*f5;
 	char label[20],opcode[20],operand[20];
 	int address,sa,len;
-	f1=fopen("interip.txt","r");
-	f4=fopen("output.txt","w");
+	f1=fopen("output.txt","r");
+	f4=fopen("outputt.txt","w");
 	f5=fopen("length.txt","w");
 	fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
 	if(strcmp(opcode,"START")==0)
@@ -16,7 +16,7 @@ void main()
 		fprintf(f4,"%X\t%s\t%s\t%s\t-\n",address,label,opcode,operand);
 		sa=address;
 	}
-
+	
 	fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
 	while(strcmp(opcode,"END")!=0)
 	{
@@ -53,7 +53,7 @@ void main()
 		{
 			if(strcmp(actoperand,symcode)==0)
 			{
-
+				
 				int lval=strtol(symval,NULL,16);
 				if(operand[strlen(operand)-1]=='X')
 					lval=lval+0x8000;
@@ -62,7 +62,7 @@ void main()
 			}
 			else
 				fscanf(f3,"%s %s",symcode,symval);
-
+			
 		}
 		fclose(f3);
 
@@ -101,7 +101,7 @@ void main()
 		}
 
 		if(strcmp(opcode,"RESB")==0||strcmp(opcode,"RESW")==0)
-			fprintf(f4,"-\n");
+			fprintf(f4,"-\n");		
 
 		fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
 
@@ -110,12 +110,11 @@ void main()
 
 	len=address-sa;
 	fprintf(f5,"00%d",len);
-
-	printf("\nOutput File generated as outputt.dat\n, %X",len);
-
-
-	printf("\nOutput File generated as output.txt\n");
+	
+	printf("\nOutput File generated as output.txt\n");	
 
 	fclose(f1);
 	fclose(f4);
+
+	
 }

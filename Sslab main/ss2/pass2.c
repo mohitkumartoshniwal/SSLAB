@@ -7,7 +7,7 @@ void main()
 	FILE *f1,*f2,*f3,*f4,*f5;
 	char label[20],opcode[20],operand[20];
 	int address,sa,len;
-	f1=fopen("interip.txt","r");
+	f1=fopen("output.txt","r");
 	f4=fopen("outputt.txt","w");
 	f5=fopen("length.txt","w");
 	fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
@@ -16,7 +16,7 @@ void main()
 		fprintf(f4,"%X\t%s\t%s\t%s\t-\n",address,label,opcode,operand);
 		sa=address;
 	}
-
+	
 	fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
 	while(strcmp(opcode,"END")!=0)
 	{
@@ -46,14 +46,14 @@ void main()
 		}
 		else
 			strcpy(actoperand,operand);
-		f3=fopen("symtab.dat","r");
+		f3=fopen("symtab.txt","r");
 		char symcode[20],symval[20];
 		fscanf(f3,"%s %s",symcode,symval);
 		while(!feof(f3))
 		{
 			if(strcmp(actoperand,symcode)==0)
 			{
-
+				
 				int lval=strtol(symval,NULL,16);
 				if(operand[strlen(operand)-1]=='X')
 					lval=lval+0x8000;
@@ -62,7 +62,7 @@ void main()
 			}
 			else
 				fscanf(f3,"%s %s",symcode,symval);
-
+			
 		}
 		fclose(f3);
 
@@ -101,7 +101,7 @@ void main()
 		}
 
 		if(strcmp(opcode,"RESB")==0||strcmp(opcode,"RESW")==0)
-			fprintf(f4,"-\n");
+			fprintf(f4,"-\n");		
 
 		fscanf(f1,"%x %s %s %s",&address,label,opcode,operand);
 
@@ -110,11 +110,13 @@ void main()
 
 	len=address-sa;
 	fprintf(f5,"00%d",len);
-
-	printf("\nOutput File generated as outputt.dat\n, %X",len);
+	
+	printf("\nOutput File generated as outputt.dat\n, %X",len);	
 
 	fclose(f1);
 	fclose(f4);
 
-
+	
 }
+
+
